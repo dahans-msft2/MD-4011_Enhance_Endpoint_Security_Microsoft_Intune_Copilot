@@ -13,7 +13,7 @@ lab:
 
 ## Lab scenario
 
-Continuing as **Alex Rivera**, Contoso Healthcare's Modern Endpoint Administrator, you have successfully configured device policies and compliance in Lab 03. Now you need to protect corporate data in Microsoft 365 apps and enforce access controls based on device compliance.
+Continuing as **Diego Siciliani**, Contoso Healthcare's Modern Endpoint Administrator, you have successfully configured device policies and compliance in Lab 03. Now you need to protect corporate data in Microsoft 365 apps and enforce access controls based on device compliance.
 
 In this lab, you will create app protection policies (MAM) to prevent data leakage from mobile apps, configure conditional access policies that require compliant devices to access Exchange Online, and test these policies on mobile and desktop devices to ensure data protection and access control are working as expected.
 
@@ -28,6 +28,9 @@ In this lab, you will create app protection policies (MAM) to prevent data leaka
 > [!IMPORTANT]
 > **Prerequisites**: You must complete **Lab 01-03** before starting this lab.
 
+> [!IMPORTANT]
+> **Administrative Account**: Continue using **Diego Siciliani's** account (DiegoS@yourtenant.onmicrosoft.com) for all administrative tasks. Diego has the **Intune Administrator** and **Conditional Access Administrator** roles from Lab 01, which provide the necessary permissions for app protection and conditional access policies.
+
 > [!NOTE]
 > **Optional**: For full testing, you will need an iOS or Android device with Microsoft Outlook, Teams, or OneDrive installed. If you don't have a mobile device, you can still complete most tasks using your Windows device.
 
@@ -39,19 +42,25 @@ In this lab, you will create app protection policies (MAM) to prevent data leaka
 
 In this exercise, you will create Mobile Application Management (MAM) policies to protect corporate data in Microsoft 365 apps on iOS and Android devices. You will configure data transfer restrictions, encryption requirements, and access controls to prevent data leakage on mobile devices.
 
+> [!NOTE]
+> **What about Windows?** Windows does not support MAM/App Protection Policies like iOS and Android. Windows devices must be enrolled (MDM) to apply data protection policies. Windows Information Protection (WIP) was deprecated by Microsoft and is no longer recommended.
+
 ### Task 1 - Create an iOS/iPadOS app protection policy
 
-In this task, you will create an app protection policy for iOS/iPadOS devices to secure Outlook and other Microsoft 365 apps. This policy will prevent data from being backed up to iCloud, restrict copy/paste between unmanaged apps, and require work credentials for access.
+In this task, you will create an app protection policy for iOS/iPadOS devices to secure Microsoft 365 apps.
 
 1. Navigate to the **Microsoft Intune admin center** at [**https://intune.microsoft.com**](https://intune.microsoft.com/).
 
-1. Sign in with your **Intune Administrator** credentials.
+1. Sign in with **Diego Siciliani's** credentials (DiegoS@yourtenant.onmicrosoft.com) if prompted.
+
+    > [!NOTE]
+    > Diego has the **Intune Administrator** and **Conditional Access Administrator** roles from Lab 01, which provide the necessary permissions for app protection and conditional access policies.
 
 1. In the left navigation pane, select **Apps**.
 
-1. On the **Apps | Overview** page, under **Policy**, select **App protection policies**.
+1. On the **Apps | Overview** page, under **Manage apps**, select **Protection**.
 
-1. On the **App protection policies** page, select **+ Create policy** and then select **iOS/iPadOS**.
+1. On the **Apps | Protection** page, select **+ Create** and then select **iOS/iPadOS**.
 
 1. On the **Basics** tab, configure the following and select **Next**:
     - **Name**: `iOS App Protection - Corporate Data`
@@ -68,9 +77,7 @@ In this task, you will create an app protection policy for iOS/iPadOS devices to
     - **Microsoft Word**
     - **Microsoft Excel**
     - **Microsoft PowerPoint**
-
-    > [!TIP]
-    > You can select additional apps like OneNote, Edge, or SharePoint if needed for your organization.
+    - **Microsoft 365 Copilot**
 
 1. Select **Select** at the bottom of the page.
 
@@ -78,97 +85,65 @@ In this task, you will create an app protection policy for iOS/iPadOS devices to
 
 1. On the **Data protection** tab, configure the following settings:
 
-    **Backup**:
-    - **Backup org data to iTunes and iCloud backups**: **Block**
-    
-        > This prevents corporate data from being backed up to personal cloud storage, addressing a key security concern.
-
     **Data Transfer**:
+    - **Backup org data to iTunes and iCloud backups**: **Block**
     - **Send org data to other apps**: **Policy managed apps**
     - **Receive data from other apps**: **Policy managed apps**
     - **Save copies of org data**: **Block**
-    - **Allow user to save copies to selected services**: Select **Select services** → Select **OneDrive for Business** and **SharePoint**
+    - **Allow user to save copies to selected services**: Select **OneDrive for Business** and **SharePoint**
     - **Restrict cut, copy, and paste between other apps**: **Policy managed apps with paste in**
-    
-        > These settings ensure data can only flow between policy-protected apps, preventing accidental or intentional data leakage.
-
-    **Additional settings** (scroll down):
     - **Third party keyboards**: **Block**
-    - **Screen capture and Google Assistant**: **Block**
 
     **Encryption**:
     - **Encrypt org data**: **Require**
 
     **Functionality**:
-    - **Sync app with native contacts app**: **Block**
     - **Printing org data**: **Block**
-    - **Restrict web content transfer with other apps**: **Policy managed browsers**
-
-    > Leave all other settings at their default values.
+    - **Restrict web content transfer with other apps**: **Microsoft Edge**
+    - **Screen capture**: **Block**
 
 1. Select **Next**.
 
 1. On the **Access requirements** tab, configure the following settings:
 
-    **PIN for access**:
+    - **PIN for access**: **Require**
     - **PIN type**: **Numeric**
-    - **Select minimum PIN length**: **6**
     - **Simple PIN**: **Block**
-    - **Touch ID instead of PIN for access (iOS 8+)**: **Allow**
+    - **Select minimum PIN length**: **6**
+    - **Touch ID instead of PIN for access (iOS 8+/iPadOS)**: **Allow**
     - **Override biometrics with PIN after timeout**: **Require**
     - **Timeout (minutes of inactivity)**: **30**
-    - **PIN reset after number of days**: **90**
-
-    **Credentials**:
     - **Work or school account credentials for access**: **Require**
     - **Recheck the access requirements after (minutes of inactivity)**: **30**
-
-    > [!NOTE]
-    > These settings ensure users must authenticate regularly and use a strong PIN, providing multi-layered access protection.
 
 1. Select **Next**.
 
 1. On the **Conditional launch** tab, review the default settings:
-    
-    **App conditions**:
-    - **Max PIN attempts**: 5 attempts (Action: **Reset PIN**)
+    - **Max PIN attempts**: 5 (Action: **Reset PIN**)
     - **Offline grace period**: 720 minutes (Action: **Block access**)
+    - **Offline grace period**: 90 days (Action: **Wipe data**)
     - **Jailbroken/rooted devices**: (Action: **Block access**)
-    
-    **Account conditions**:
-    - **Disabled account**: (Action: **Block access**)
 
-    > [!TIP]
-    > You can customize these settings to match your organization's security requirements. For example, you might reduce the offline grace period for highly sensitive data.
-
-1. Select **Next** to continue.
+1. Select **Next**.
 
 1. On the **Assignments** tab, configure:
     - Under **Included groups**, select **+ Add groups**
     - Search for and select **Device Management Pilot Users** (created in Lab 01)
     - Select **Select**
 
-    > [!NOTE]
-    > In a production environment, you would typically create a dedicated group for mobile device users or use "All users" after pilot testing.
-
-1. Select **Next** to skip **Scope tags** (leave default unless your organization uses scope tags for delegation).
+1. Select **Next**.
 
 1. On the **Review + create** page, review all your settings carefully.
 
 1. Select **Create** to create the policy.
 
-1. Verify that **iOS App Protection - Corporate Data** appears in the app protection policies list.
-
-    > [!NOTE]
-    > The policy will apply to users in the assigned group when they sign in to the protected apps on their iOS/iPadOS devices.
-
-You have successfully created an iOS/iPadOS app protection policy that prevents data leakage and requires secure access to corporate data.
+You have successfully created an iOS/iPadOS app protection policy.
 
 ### Task 2 - Create an Android app protection policy
 
-In this task, you will create a similar app protection policy for Android devices to ensure consistent data protection across mobile platforms.
+In this task, you will create an app protection policy for Android devices with similar settings to iOS to ensure consistent data protection across mobile platforms.
 
-1. You are still in the **Microsoft Intune admin center** → **Apps** → **App protection policies**.
+1. You are still in the **Microsoft Intune admin center** → **Apps** → **Protection**.
 
 1. Select **+ Create policy** and then select **Android**.
 
@@ -178,80 +153,59 @@ In this task, you will create a similar app protection policy for Android device
 
 1. On the **Apps** tab, select **+ Select public apps**.
 
-1. In the search box, type **Microsoft** to filter the app list.
-
-1. Select the same apps as the iOS policy:
+1. In the search box, type **Microsoft** and select the same apps as iOS:
     - **Microsoft Outlook**
     - **Microsoft Teams**
     - **Microsoft OneDrive**
     - **Microsoft Word**
     - **Microsoft Excel**
     - **Microsoft PowerPoint**
+    - **Microsoft 365 Copilot**
 
 1. Select **Select** and then **Next**.
 
-1. On the **Data protection** tab, configure the following settings to match the iOS policy:
-
-    **Backup**:
-    - **Backup org data to Google Drive**: **Block**
+1. On the **Data protection** tab, configure settings similar to iOS:
 
     **Data Transfer**:
+    - **Backup org data to Android backup services**: **Block**
     - **Send org data to other apps**: **Policy managed apps**
     - **Receive data from other apps**: **Policy managed apps**
     - **Save copies of org data**: **Block**
-    - **Allow user to save copies to selected services**: Select **Select services** → Select **OneDrive for Business** and **SharePoint**
+    - **Allow user to save copies to selected services**: Select **OneDrive for Business** and **SharePoint**
     - **Restrict cut, copy, and paste between other apps**: **Policy managed apps with paste in**
-
-    **Additional settings**:
-    - **Third party keyboards**: **Block**
-    - **Screen capture and Google Assistant**: **Block**
+    - **Screen capture and Google Assistant**: **Block** 
+    - **Approved keyboards**: **Not required**
 
     **Encryption**:
     - **Encrypt org data**: **Require**
+    - **Encrypt org data on enrolled devices**: **Require**
 
     **Functionality**:
-    - **Sync app with native contacts app**: **Block**
+    - **Sync policy managed app data with native apps or add-ins**: **Block**
     - **Printing org data**: **Block**
-    - **Restrict web content transfer with other apps**: **Policy managed browsers**
+    - **Restrict web content transfer with other apps**: **Microsoft Edge**
+    - **Start Microsoft Tunnel connection on app-launch**: **No**
 
 1. Select **Next**.
 
-1. On the **Access requirements** tab, configure the same access controls as iOS:
-
-    **PIN for access**:
-    - **PIN type**: **Numeric**
-    - **Select minimum PIN length**: **6**
-    - **Simple PIN**: **Block**
-    - **Biometric instead of PIN for access**: **Allow**
-    - **Override biometrics with PIN after timeout**: **Require**
-    - **Timeout (minutes of inactivity)**: **30**
-    - **PIN reset after number of days**: **90**
-
-    **Credentials**:
-    - **Work or school account credentials for access**: **Require**
-    - **Recheck the access requirements after (minutes of inactivity)**: **30**
+1. On the **Access requirements** tab, configure the same settings as iOS:
+    - PIN: **Require**, **Numeric**, minimum **6** digits, **Block** simple PIN
+    - Biometric: **Allow**
+    - Override biometrics after **30** minutes
+    - Credentials: **Require**
+    - Recheck after: **30** minutes
 
 1. Select **Next**.
 
-1. On the **Conditional launch** tab, review the default settings (same as iOS):
-    - **Max PIN attempts**: 5 attempts (Action: **Reset PIN**)
-    - **Offline grace period**: 720 minutes (Action: **Block access**)
-    - **Jailbroken/rooted devices**: (Action: **Block access**)
+1. On the **Conditional launch** tab, accept the default settings (same as iOS).
 
 1. Select **Next**.
 
-1. On the **Assignments** tab:
-    - Under **Included groups**, select **+ Add groups**
-    - Select **Device Management Pilot Users**
-    - Select **Select**
+1. On the **Assignments** tab, assign to **Device Management Pilot Users**.
 
-1. Select **Next** to skip **Scope tags**.
+1. Select **Next** and then **Create**.
 
-1. On the **Review + create** page, review your settings and select **Create**.
-
-1. Verify that **Android App Protection - Corporate Data** appears in the app protection policies list.
-
-You have successfully created app protection policies for both iOS/iPadOS and Android devices, ensuring consistent data protection across mobile platforms.
+You have successfully created app protection policies for both iOS and Android devices, ensuring consistent data protection across mobile platforms.
 
 ## Exercise 2: Create conditional access policies
 
@@ -265,9 +219,7 @@ In this exercise, you will create a conditional access policy that requires devi
 
 1. Open a new browser tab and navigate to the **Microsoft Entra admin center** at [**https://entra.microsoft.com**](https://entra.microsoft.com/).
 
-1. Sign in with your **Global Administrator** or **Conditional Access Administrator** credentials.
-
-1. In the left navigation pane, expand **Protection** and select **Conditional Access**.
+1. In the left navigation pane, expand **Entra ID** and select **Conditional Access**.
 
 1. Select **Policies** and then **+ New policy**.
 
