@@ -13,7 +13,7 @@ lab:
 
 ## Lab scenario
 
-Continuing as **Alex Rivera**, Contoso Healthcare's Modern Endpoint Administrator, you have successfully protected data and enforced access controls in Lab 04. Now you need to harden devices against advanced threats by deploying security baselines, integrating with Microsoft Defender for Endpoint, and configuring proactive threat prevention.
+Continuing as **Diego Siciliani**, Contoso Healthcare's Modern Endpoint Administrator, you have successfully protected data and enforced access controls in Lab 04. Now you need to harden devices against advanced threats by deploying security baselines, integrating with Microsoft Defender for Endpoint, and configuring proactive threat prevention.
 
 In this lab, you will deploy the Windows 11 security baseline to enforce 100+ recommended security settings, onboard enrolled devices to Defender for Endpoint for advanced threat detection and response, configure ASR rules to block credential theft and malicious scripts, and monitor device security posture and vulnerabilities through the Defender portal.
 
@@ -27,6 +27,9 @@ In this lab, you will deploy the Windows 11 security baseline to enforce 100+ re
 
 > [!IMPORTANT]
 > **Prerequisites**: You must complete **Lab 01-04** before starting this lab. You need at least one enrolled Windows device.
+
+> [!IMPORTANT]
+> **Administrative Account**: Continue using **Diego Siciliani's** account (DiegoS@yourtenant.onmicrosoft.com) for all administrative tasks. Diego has the **Intune Administrator** and **Security Administrator** roles from Lab 01, which provide the necessary permissions for security baselines and Defender for Endpoint integration.
 
 > [!NOTE]
 > **License Requirements**: This lab requires **Microsoft Defender for Endpoint Plan 2** (included in Microsoft 365 E5 or standalone licenses).
@@ -43,18 +46,22 @@ In this exercise, you will deploy the Windows security baseline to enforce Micro
 
 1. Navigate to the **Microsoft Intune admin center** at [**https://intune.microsoft.com**](https://intune.microsoft.com/).
 
-1. Sign in with your **Intune Administrator** credentials.
+1. Sign in with **Diego Siciliani's** credentials (DiegoS@yourtenant.onmicrosoft.com) if prompted.
+
+    > [!NOTE]
+    > Diego has the **Intune Administrator** and **Security Administrator** roles from Lab 01, which provide the necessary permissions for security baselines and Defender for Endpoint integration.
 
 1. In the left navigation pane, expand **Endpoint security** and select **Security baselines**.
 
 1. On the **Security baselines** page, you should see several baseline options:
     - **Security Baseline for Windows 10 and later**
-    - **Microsoft Defender for Endpoint baseline** (if Defender integration is enabled)
-    - **Microsoft Edge baseline**
+    - **Microsoft Defender for Endpoint Security baseline** (if Defender integration is enabled)
+    - **Security Baseline for Microsoft Edge**
+    - **Microsoft 365 Apps for Enterprise Security Baseline**
 
 1. Select **Security Baseline for Windows 10 and later**.
 
-1. Select **Create profile**.
+1. Select **+ Create policy**. On the flyout, select **Create**.
 
 1. On the **Basics** page:
     - **Name**: `Windows 11 Security Baseline - Corporate Devices`
@@ -62,46 +69,47 @@ In this exercise, you will deploy the Windows security baseline to enforce Micro
 
 1. Select **Next**.
 
-1. On the **Configuration settings** page, you will see categories of security settings:
-    - **Above Lock** (lock screen settings)
-    - **Application Guard** (isolated browsing)
-    - **Attack Surface Reduction Rules** (blocked threats)
-    - **BitLocker** (encryption settings)
-    - **Browser** (Edge settings)
-    - **Credential Guard** (credential protection)
-    - **Data Protection** (data security)
-    - **Device Guard** (code integrity)
-    - **Device Installation** (hardware restrictions)
-    - **Device Lock** (authentication settings)
-    - **DMA Guard** (DMA attack protection)
-    - **Firewall** (network protection)
+1. On the **Configuration settings** page, you will see multiple categories of security settings. The most important categories include:
+    - **Administrative Templates** (includes Network, System, Windows Components subcategories)
+    - **Defender** (antivirus and threat protection)
+    - **Device Guard** (code integrity and virtualization-based security)
+    - **Device Lock** (password and authentication policies)
+    - **Firewall** (network protection rules)
     - **Local Policies Security Options** (authentication and account policies)
-    - **Microsoft Defender** (antivirus and exploit protection)
-    - **Microsoft Network Client** (SMB security)
-    - **Microsoft Network Server** (server security)
-    - **Smart Screen** (phishing protection)
-    - **User Rights Assignment** (privilege restrictions)
-    - **Windows Connection Manager** (network connection policies)
-    - **Windows Hello for Business** (passwordless authentication)
+    - **Smart Screen** (phishing and malware protection)
+    - **User Rights Assignment** (privilege management)
 
     > [!NOTE]
     > The security baseline contains 100+ pre-configured settings based on Microsoft security team recommendations. Most settings should be left at their default (recommended) values.
 
-1. **Optional**: Expand categories like **Microsoft Defender** and **BitLocker** to review the specific settings being enforced:
-    - **Defender**: Real-time protection, cloud-delivered protection, PUA detection, scan settings
-    - **BitLocker**: Device encryption, recovery key storage, startup authentication
+1. Expand the **Defender** category to review specific Microsoft Defender settings:
+    - **Cloud Extended Timeout**: `50` seconds (allows more time for cloud-based threat analysis)
+    - **Enable Network Protection**: `Enabled (block mode)` (blocks malicious network connections)
+    - **PUA Protection**: `Enabled` (detects potentially unwanted applications)
+    - **Real Time Scan Direction**: `Monitor all files (bi-directional)`
+    - **Submit Samples Consent**: `Send all samples automatically` (for threat analysis)
 
-1. Leave all settings at their **default (recommended)** values unless you have specific requirements.
+1. Collapse **Defender** and expand **Device Guard** to review:
+    - **Credential Guard**: `Enabled with UEFI lock` (protects domain credentials)
+    - **Enable Virtualization Based Security**: `Enabled` (hardware-based security features)
+
+1. Collapse **Device Guard** and expand **Administrative Templates** → **Windows Components** → **BitLocker Drive Encryption** → **Removable Data Drives**:
+    - **Deny write access to removable drives not protected by BitLocker**: `Enabled` (enforces encryption on USB drives)
+
+    > [!TIP]
+    > Notice how settings are organized hierarchically: Administrative Templates contains Windows Components, which contains BitLocker subcategories. Intune automatically configures all these settings to Microsoft-recommended values.
+
+1. Review any other categories of interest, then leave all settings at their **default (recommended)** values unless you have specific organizational requirements.
 
 1. Select **Next**.
+
+1. Select **Next** through **Scope tags** (leave default).
 
 1. On the **Assignments** page, under **Included groups**, select **+ Add groups**.
 
 1. Select **All Windows Devices**.
 
 1. Select **Select**.
-
-1. Select **Next** through **Scope tags** (leave default).
 
 1. On the **Review + create** page, review the configuration and select **Create**.
 
@@ -144,21 +152,26 @@ In this exercise, you will configure the Microsoft Defender for Endpoint connect
 
 1. On the **Connectors and tokens** page, locate **Microsoft Defender for Endpoint** and select it.
 
-1. On the **Microsoft Defender for Endpoint** connector page, configure the following settings:
+1. On the **Microsoft Defender for Endpoint** connector page, you'll see **Connection status: Not set up**.
+
+    > [!NOTE]
+    > In Lab 01, you initialized Microsoft Defender for Endpoint and enabled the bidirectional connection between Defender and Intune. The connector toggles should now be enabled (not grayed out). If any toggles are still grayed out, wait a few minutes and refresh the page.
+
+1. Configure the following settings:
 
     | Setting | Value |
     |---------|-------|
+    | **Allow Microsoft Defender for Endpoint to enforce Endpoint Security Configurations** | **On** (allows Defender to remediate vulnerabilities via Intune) |
     | **Connect Windows devices version 10.0.15063 and above to Microsoft Defender for Endpoint** | **On** |
     | **Connect Android devices to Microsoft Defender for Endpoint** | Optional (On if you have Android devices) |
     | **Connect iOS devices to Microsoft Defender for Endpoint** | Optional (On if you have iOS devices) |
-    | **Allow Microsoft Defender for Endpoint to enforce Endpoint Security Configurations** | **On** (allows Defender to remediate vulnerabilities via Intune) |
 
 1. Select **Save** at the top of the page.
 
 1. Wait for the notification: "Successfully updated Microsoft Defender for Endpoint settings."
 
     > [!NOTE]
-    > This enables the integration between Intune and Defender for Endpoint, allowing device onboarding and security signal sharing.
+    > This completes the bidirectional integration between Intune and Defender for Endpoint. You enabled the connection from the Defender side in Lab 01, and now you've configured it from the Intune side. This allows device onboarding, security signal sharing, and policy enforcement.
 
 1. Leave the browser window open for the next task.
 
@@ -175,7 +188,7 @@ In this exercise, you will configure the Microsoft Defender for Endpoint connect
 1. On the **Create a profile** pane:
     - **Platform**: Windows 10 and later
     - **Profile type**: Templates
-    - **Template name**: Select **Microsoft Defender for Endpoint (Windows 10 Desktop)**
+    - **Template name**: Select **Microsoft Defender for Endpoint**
 
 1. Select **Create**.
 
@@ -319,9 +332,11 @@ In this exercise, you will review the security posture of your devices in the Mi
 
 1. You are in the **Microsoft Defender portal** at [**https://security.microsoft.com**](https://security.microsoft.com/).
 
-1. In the left navigation pane, expand **Vulnerability management** and select **Dashboard**.
+1. In the left navigation pane, expand **Exposure management**.
 
-1. On the **Vulnerability management** dashboard, review the following metrics:
+1. Under **Vulnerability management**, select **Overview**.
+
+1. On the **Vulnerability management** overview page, review the following metrics:
 
     **Exposure score** (0-1000):
     - Measures overall organizational exposure to vulnerabilities

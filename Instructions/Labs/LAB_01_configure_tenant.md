@@ -13,7 +13,7 @@ lab:
 
 ## Lab scenario
 
-In the labs for this course, you are taking on the role of **Alex Rivera**, Contoso Healthcare's Modern Endpoint Administrator. Contoso Healthcare is a mid-sized healthcare organization that has deployed Microsoft 365 E5 and is now ready to implement modern endpoint management with Microsoft Intune.
+In the labs for this course, you are taking on the role of **Deigo Sicilliani**, Contoso Healthcare's Modern Endpoint Administrator. Contoso Healthcare is a mid-sized healthcare organization that has deployed Microsoft 365 E5 and is now ready to implement modern endpoint management with Microsoft Intune.
 
 You have been tasked with completing a pilot project that tests device management, security, and compliance features in Microsoft Intune as they relate to Contoso's healthcare industry requirements. The organization needs to ensure all endpoints are secure, compliant, and meet regulatory requirements while maintaining user productivity.
 
@@ -21,9 +21,24 @@ You have just started the pilot project. In this first lab, you will prepare the
 
 ## Lab Duration
 
-  - **Estimated Time to complete**: 30 minutes
+  - **Estimated Time to complete**: 38 minutes
 
 ## Instructions
+
+### Before You Begin - Administrative roles and zero-trust principles
+
+> [!IMPORTANT]
+> **Zero-Trust and Least Privilege**: Following security best practices, you will assign specific administrative roles and use those throughout all labs rather than Global Administrator. This demonstrates proper role-based access control (RBAC) as recommended by Microsoft.
+
+> [!NOTE]
+> **Roles you will assign and use**:
+> - **Intune Administrator**: For managing devices, policies, and apps in Intune
+> - **Cloud Device Administrator**: For managing device settings in Entra ID
+> - **Groups Administrator**: For creating and managing groups in Entra ID
+> - **Conditional Access Administrator**: For creating conditional access policies (Lab 04)
+> - **Security Administrator**: For Microsoft Defender for Endpoint and security baselines (Lab 05)
+> 
+> In Exercise 1, you will assign these roles to **Diego Siciliani** who will serve as the Intune administrator for all labs.
 
 ### WWL Tenants - Terms of Use
 
@@ -34,17 +49,20 @@ You have just started the pilot project. In this first lab, you will prepare the
 > 
 > Tenants must not be converted to a paid subscription. Tenants obtained as a part of this course remain the property of Microsoft Corporation and we reserve the right to obtain access and repossess at any time.
 
-## Exercise 1: Verify licensing and assign Intune licenses
+## Exercise 1: Verify licensing and identify pilot users
 
 ### Exercise Duration
 
   - **Estimated Time to complete**: 10 minutes
 
-In this exercise, you will verify that the Microsoft 365 tenant has the appropriate licenses for Intune device management and assign Intune licenses to pilot users who will participate in testing.
+In this exercise, you will verify that the Microsoft 365 tenant has the appropriate licenses for Intune device management and confirm that licenses are already assigned to the four pilot users who will participate in testing throughout all labs.
 
-### Task 1 - Sign in as Global Administrator and review available licenses
+> [!NOTE]
+> You will use **Global Administrator** credentials for this exercise to access billing and licensing information. After verifying licenses, you will assign administrative roles to Diego Siciliani in Exercise 2.
 
-In this task, you will sign into the Microsoft 365 admin center as a Global Administrator to review the available licenses in your tenant.
+### Task 1 - Sign in to Microsoft 365 admin center
+
+In this task, you will sign in with Global Administrator to review licensing.
 
 1. Open **Microsoft Edge** and browse to the **Microsoft 365 admin center** at [**https://admin.microsoft.com**](https://admin.microsoft.com/).
 
@@ -56,62 +74,153 @@ In this task, you will sign into the Microsoft 365 admin center as a Global Admi
 
 1. In the left navigation pane, expand **Billing** and select **Licenses**.
 
-1. Review the available licenses in your tenant. You should see one or more of the following:
-    - **Microsoft 365 E5** (includes Intune, EMS E5, Defender for Endpoint)
-    - **Microsoft 365 E3** (requires separate EMS E5 license for full Intune capabilities)
+1. Review the available licenses in your tenant. You should see the following licenses:
     - **Enterprise Mobility + Security E5**
-    - **Microsoft Intune**
+    - **Office 365 E5 (no Teams)**
+    - **Windows 10/11 Enterprise E3**
 
 1. Note the **Total licenses** and **Available licenses** for each subscription.
-
-    > [!NOTE]
-    > If you see zero available licenses, you may need to increase the quantity in your trial or paid subscription.
 
 1. Leave the browser window open for the next task.
 
 You have successfully reviewed the licensing status of your Microsoft 365 tenant and confirmed Intune licensing is available.
 
-### Task 2 - Assign licenses to pilot users
+### Task 2 - Verify licenses are assigned to pilot users
 
-In this task, you will assign Intune/EMS licenses to test users who will participate in the device management pilot.
+In this task, you will verify that Intune/EMS licenses are already assigned to the four specific users who will participate in the device management pilot.
 
 1. You are still signed in to the **Microsoft 365 admin center** as **Global Administrator**.
 
 1. In the left navigation pane, expand **Users** and select **Active users**.
 
-1. Review the list of users. You should see several test users (or you may need to create them).
+1. Review the list of users. You should see several precreated users.
 
-    > [!TIP]
-    > If test users do not exist, you can create them now: Select **Add a user** at the top, enter First name, Last name, Display name, and Username, assign a password, and complete the wizard.
+1. Locate and note the following **four specific pilot users**:
+    - **Alex Wilber**
+    - **Allan Deyoung**
+    - **Diego Siciliani**
+    - **Joni Sherman**
 
-1. Select the checkbox next to **3-5 test users** who will participate in the pilot (for example, Alex Wilber, Allan Deyoung, Diego Siciliani, Joni Sherman).
+    > [!IMPORTANT]
+    > These four users will be used consistently throughout all labs. Make note of their names and email addresses.
+
+1. Select **Alex Wilber** from the user list to view their details.
+
+1. In the user details pane, select **Licenses and apps**.
+
+1. Verify that Alex Wilber has **all three** of the following licenses assigned:
+    - ✅ **Enterprise Mobility + Security E5**
+    - ✅ **Office 365 E5 (no Teams)**
+    - ✅ **Windows 10/11 Enterprise E3**
+
+1. Expand the **Enterprise Mobility + Security E5** license details and verify the following services are enabled:
+    - ✅ **Microsoft Intune**
+    - ✅ **Azure Active Directory Premium P2** (now called Microsoft Entra ID Premium P2)
+
+1. Close the user details pane.
 
     > [!NOTE]
-    > Include your own admin user account if you plan to enroll your own device.
-
-1. At the top of the user list, select **Manage product licenses** (or the ellipsis **...** and then **Manage product licenses**).
-
-1. In the **Manage product licenses** pane, select **Assign more**.
-
-1. Select the checkbox next to the following licenses:
-    - **Microsoft 365 E5** (or **Microsoft 365 E3** + **Enterprise Mobility + Security E5**)
-
-1. Expand the license details and verify the following services are enabled:
-    - **Microsoft Intune**
-    - **Azure Active Directory Premium P1/P2** (now called Microsoft Entra ID Premium)
-
-1. Select **Save changes** at the bottom of the pane.
-
-1. Once licenses are assigned, select **Done** to close the pane.
-
-    > [!NOTE]
-    > License propagation can take a few minutes. Services will be available shortly.
+    > All four pilot users should have the same three licenses assigned. If any user is missing licenses, notify your instructor.
 
 1. Leave the browser window open for the next exercise.
 
-You have successfully assigned Intune/EMS licenses to pilot users, enabling them to enroll devices and access Intune services.
+You have successfully verified that Intune/EMS licenses are assigned to all four pilot users, enabling them to enroll devices and access Intune services.
 
-## Exercise 2: Configure Entra ID for device management
+## Exercise 2: Assign administrative roles (Zero-Trust)
+
+### Exercise Duration
+
+  - **Estimated Time to complete**: 10 minutes
+
+In this exercise, you will assign the necessary administrative roles to **Diego Siciliani**, who will serve as the Intune administrator for all labs. Following zero-trust and least privilege principles, Diego will have specific roles rather than Global Administrator access.
+
+### Task 1 - Navigate to Entra admin center
+
+In this task, you will navigate to the Entra admin center to assign roles.
+
+1. You should still be signed in as **Global Administrator** from Exercise 1.
+
+1. Open a new browser tab and navigate to the **Microsoft Entra admin center** at [**https://entra.microsoft.com**](https://entra.microsoft.com/).
+
+1. If prompted to sign in, use the same **Global Administrator** credentials.
+
+You are now ready to assign administrative roles.
+
+### Task 2 - Assign administrative roles to Diego Siciliani
+
+In this task, you will assign the necessary Intune and security administrative roles to Diego Siciliani.
+
+1. In the **Microsoft Entra admin center**, expand **Identity** and select **Users** → **All users**.
+
+1. In the user list, search for and select **Diego Siciliani**.
+
+1. In Diego's user profile, select **Assigned roles** in the left navigation.
+
+1. At the top of the page, select **+ Add assignments**.
+
+1. In the **Add assignments** pane, search for and select the following roles one-by-one and then select **Next**:
+    - **Intune Administrator**
+    - **Cloud Device Administrator**
+    - **Groups Administrator**
+    - **Conditional Access Administrator**
+    - **Security Administrator**
+
+1. On the **Setting** tab, ensure **Active** is selected under **Assignment type** (default).
+
+1. Enter the following as business justification:
+
+    ```text
+    We're using Active assignments so Diego has immediate access throughout all labs. Eligible assignments would require activation through Privileged Identity Management (PIM) each time, which adds unnecessary complexity for a training environment.
+    ```
+
+1. Select **Assign** to assign the selected role.
+
+1. Repeat for all the other roles mentioned.
+
+1. Verify that all five roles now appear in Diego's **Assigned roles** list:
+    - ✅ Intune Administrator
+    - ✅ Cloud Device Administrator
+    - ✅ Groups Administrator
+    - ✅ Conditional Access Administrator
+    - ✅ Security Administrator
+
+    > [!IMPORTANT]
+    > Diego Siciliani will be your administrative account for all remaining labs. Make note of his credentials.
+
+1. Leave the browser window open.
+
+You have successfully assigned administrative roles to Diego Siciliani following least privilege principles.
+
+### Task 3 - Sign out and sign in as Diego Siciliani
+
+In this task, you will sign out of the Global Administrator account and sign in with Diego Siciliani's account to begin using proper role-based access.
+
+1. In the **Microsoft Entra admin center**, select your account name or profile icon in the upper-right corner.
+
+1. Select **Sign out**.
+
+1. Close all browser windows completely to clear the session.
+
+1. Open a new **Microsoft Edge** window.
+
+1. Navigate to the **Microsoft 365 admin center** at [**https://admin.microsoft.com**](https://admin.microsoft.com/).
+
+1. On the **Sign in** screen, enter **Diego Siciliani's** email address: `DiegoS@yourtenant.onmicrosoft.com`
+
+1. Enter Diego's password.
+
+1. If prompted, complete multi-factor authentication (MFA).
+
+1. On the **Stay signed in?** prompt, select **Yes** (you'll use Diego's account throughout all labs).
+
+    > [!IMPORTANT]
+    > From this point forward, all lab exercises will use **Diego Siciliani's** account unless explicitly stated otherwise. Do not use Global Administrator again.
+
+1. Leave the browser window open for the next exercise.
+
+You have successfully signed in with Diego Siciliani's role-based administrative account. This account will be used for all remaining lab exercises.
+
+## Exercise 3: Configure Entra ID for device management
 
 ### Exercise Duration
 
@@ -123,13 +232,13 @@ In this exercise, you will configure Microsoft Entra ID (formerly Azure Active D
 
 In this task, you will configure Entra ID to allow users to join and register their devices.
 
-1. Open a new browser tab and navigate to the **Microsoft Entra admin center** at [**https://entra.microsoft.com**](https://entra.microsoft.com/).
+1. You should still be signed in to the **Microsoft Entra admin center** as **Diego Siciliani** from Exercise 2.
 
-1. If prompted to sign in, use the same **Global Administrator** credentials.
+1. If needed, navigate to [**https://entra.microsoft.com**](https://entra.microsoft.com/).
 
 1. In the left navigation pane, expand **Identity** → **Devices** and select **Overview**.
 
-1. Review the current device statistics (you may see 0 devices at this point).
+1. Review the current device statistics (you will see 0 devices at this point).
 
 1. In the **Devices** menu, select **Device settings**.
 
@@ -137,9 +246,9 @@ In this task, you will configure Entra ID to allow users to join and register th
 
     | Setting | Value |
     |---------|-------|
-    | **Users may join devices to Azure AD** | **All** |
-    | **Users may register their devices with Azure AD** | **All** |
-    | **Require Multi-Factor Authentication to register or join devices with Azure AD** | **No** (for lab purposes; enable in production) |
+    | **Users may join devices to Microsoft Entra** | **All** |
+    | **Users may register their devices with Microsoft Entra** | **All** |
+    | **Require Multi-Factor Authentication to register or join devices with Microsoft Entra** | **No** (for lab purposes; enable in production) |
     | **Maximum number of devices per user** | **50** (default; adjust based on your requirements) |
     | **Local administrator setting** | **None** (default; can enable for specific scenarios) |
 
@@ -154,62 +263,61 @@ In this task, you will configure Entra ID to allow users to join and register th
 
 You have successfully configured Entra ID device settings to allow users to join and register devices.
 
-### Task 2 - Configure automatic MDM enrollment
-
-In this task, you will enable automatic MDM enrollment in Microsoft Intune so that devices automatically enroll when users join them to Entra ID.
-
-1. You are still in the **Microsoft Entra admin center** under **Identity** → **Devices**.
-
-1. In the **Devices** menu, select **Enrollment**.
-
-1. On the **Enrollment** page, you will see several enrollment options:
-    - **Windows Hello for Business** (optional, can configure later)
-    - **Mobility (MDM and MAM)** ← This is what we need
-
-1. Select **Microsoft Intune** (you may see it listed under **MDM** applications).
-
-    > [!NOTE]
-    > If you don't see Microsoft Intune listed, it may not be configured yet. Look for an option to **Add MDM application** and add Microsoft Intune.
-
-1. On the **Microsoft Intune** configuration page, configure the following:
-
-    | Setting | Value |
-    |---------|-------|
-    | **MDM user scope** | **All** |
-    | **MAM user scope** | **None** (we'll configure MAM in a later lab) |
-
-1. Expand **MDM Terms of Use URL**, **MDM Discovery URL**, and **MDM Compliance URL** to review the default URLs:
-    - **MDM Terms of Use URL**: `https://portal.manage.microsoft.com/TermsofUse.aspx`
-    - **MDM Discovery URL**: `https://enrollment.manage.microsoft.com/enrollmentserver/discovery.svc`
-    - **MDM Compliance URL**: `https://portal.manage.microsoft.com/?portalAction=Compliance`
-
-    > [!NOTE]
-    > These URLs are pre-populated by Microsoft and should not be changed unless you are using a third-party MDM provider.
-
-1. Select **Save** at the top of the page.
-
-1. Wait for the notification: "Successfully updated Microsoft Intune configuration."
-
-    > [!IMPORTANT]
-    > With automatic MDM enrollment enabled, any device that joins Entra ID (either Entra joined or Entra registered) will automatically enroll in Intune without additional user action.
-
-1. Leave this browser tab open for the next exercise.
-
-You have successfully configured automatic MDM enrollment for Microsoft Intune. Devices that join Entra ID will now automatically enroll in Intune.
-
-## Exercise 3: Create organizational groups
+## Exercise 4: Create organizational groups
 
 ### Exercise Duration
 
   - **Estimated Time to complete**: 10 minutes
 
-In this exercise, you will create dynamic device groups and security groups that will be used to assign policies and applications to devices in later labs.
+In this exercise, you will create a static security group for your pilot users and a dynamic device group that will be used to assign policies and applications in later labs.
 
-### Task 1 - Create a dynamic device group for all Windows devices
+> [!NOTE]
+> We are creating the pilot users group first so that it can be used when configuring automatic enrollment in Exercise 5.
+
+### Task 1 - Create a static group for pilot users
+
+In this task, you will create a static security group for the four pilot users who will participate in the device management pilot.
+
+1. You should still be in the **Microsoft Entra admin center** as **Diego Siciliani**.
+
+1. If needed, navigate to [**https://entra.microsoft.com**](https://entra.microsoft.com/).
+
+1. In the left navigation pane, expand **Identity** → **Groups** and select **All groups**.
+
+1. At the top of the page, select **New group**.
+
+1. On the **New Group** page, configure the following settings:
+
+    | Setting | Value |
+    |---------|-------|
+    | **Group type** | **Security** |
+    | **Group name** | **Device Management Pilot Users** |
+    | **Group description** | **Static group of users participating in the Intune device management pilot** |
+    | **Membership type** | **Assigned** |
+
+1. Under **Members**, select **No members selected**.
+
+1. On the **Add members** page, search for and select the **four pilot users** you verified earlier:
+    - **Alex Wilber**
+    - **Allan Deyoung**
+    - **Diego Siciliani**
+    - **Joni Sherman**
+
+1. Select **Select** at the bottom of the page.
+
+1. Back on the **New Group** page, select **Create**.
+
+1. Wait for the notification: "Group created successfully."
+
+1. Leave the browser window open for the next task.
+
+You have successfully created a static group for pilot users. This group will be used to configure automatic enrollment in Exercise 5.
+
+### Task 2 - Create a dynamic device group for all Windows devices
 
 In this task, you will create a dynamic device group that automatically includes all Windows devices enrolled in Intune.
 
-1. You are still in the **Microsoft Entra admin center**.
+1. You are still in the **Microsoft Entra admin center** as **Diego Siciliani**.
 
 1. In the left navigation pane, expand **Identity** → **Groups** and select **All groups**.
 
@@ -249,38 +357,59 @@ In this task, you will create a dynamic device group that automatically includes
 
 You have successfully created a dynamic device group that will automatically include all Windows devices.
 
-### Task 2 - Create a static group for pilot users
+## Exercise 5: Configure automatic enrollment
 
-In this task, you will create a static security group for pilot users who will participate in the device management pilot.
+### Exercise Duration
 
-1. You are still in the **Microsoft Entra admin center** under **Identity** → **Groups** → **All groups**.
+  - **Estimated Time to complete**: 10 minutes
 
-1. At the top of the page, select **New group**.
+In this exercise, you will enable automatic enrollment in Microsoft Intune for your pilot users so that their devices automatically enroll when they join them to Entra ID.
 
-1. On the **New Group** page, configure the following settings:
+### Task 1 - Configure automatic enrollment for pilot users
 
-    | Setting | Value |
-    |---------|-------|
-    | **Group type** | **Security** |
-    | **Group name** | **Device Management Pilot Users** |
-    | **Group description** | **Static group of users participating in the Intune device management pilot** |
-    | **Membership type** | **Assigned** |
+In this task, you will enable automatic enrollment in Microsoft Intune for your pilot users so that their devices automatically enroll when they join them to Entra ID.
 
-1. Under **Members**, select **No members selected**.
+1. Open a new browser tab and navigate to the **Microsoft Intune admin center** at [**https://intune.microsoft.com**](https://intune.microsoft.com/).
 
-1. On the **Add members** page, search for and select the **3-5 test users** you assigned licenses to earlier (e.g., Alex Wilber, Allan Deyoung, Diego Siciliani, Joni Sherman).
+1. Sign in with **Diego Siciliani's** credentials (DiegoS@yourtenant.onmicrosoft.com) if prompted.
 
-1. Select **Select** at the bottom of the page.
+1. In the left navigation pane, expand **Devices > Device onboarding ** and select **Enrollment**.
 
-1. Back on the **New Group** page, select **Create**.
+1. On the **Enrollment** page, select the **Windows** tab at the top.
 
-1. Wait for the notification: "Group created successfully."
+1. Under **Enrollment options**, select **Automatic Enrollment**.
 
-1. Leave the browser window open for the next exercise.
+1. Set the **MDM user scope**:
+    - Select **Some**
+    - Select **+ Select groups**
+    - Search for and select **Device Management Pilot Users**
+    - Select **Select**
 
-You have successfully created a static group for pilot users. This group can be used to assign policies and applications to specific users in later labs.
+    > [!NOTE]
+    > For this lab, we're scoping automatic enrollment to our pilot users group. In production, you might use **All** or different pilot groups.
 
-## Exercise 4: Verify Intune tenant status
+1. Set the **WIP user scope** to **None**.
+
+1. Review the pre-populated URLs:
+    - **MDM Terms of Use URL**: `https://portal.manage.microsoft.com/TermsofUse.aspx`
+    - **MDM Discovery URL**: `https://enrollment.manage.microsoft.com/enrollmentserver/discovery.svc`
+    - **MDM Compliance URL**: `https://portal.manage.microsoft.com/?portalAction=Compliance`
+
+    > [!NOTE]
+    > These URLs are pre-populated by Microsoft and should not be changed unless you are using a third-party MDM provider.
+
+1. Select **Save**.
+
+1. Wait for the notification confirming the configuration was saved.
+
+    > [!IMPORTANT]
+    > With automatic enrollment enabled for the pilot users group, any device that these users join to Entra ID will automatically enroll in Intune without additional user action.
+
+1. Leave this browser tab open for the next exercise.
+
+You have successfully configured automatic enrollment for the pilot users group.
+
+## Exercise 6: Verify Intune tenant status
 
 ### Exercise Duration
 
@@ -290,13 +419,9 @@ In this exercise, you will access the Microsoft Intune admin center and verify t
 
 ### Task 1 - Access Intune admin center and review tenant status
 
-In this task, you will sign into the Intune admin center and verify the tenant configuration.
+In this task, you will verify the tenant configuration.
 
-1. Open a new browser tab and navigate to the **Microsoft Intune admin center** at [**https://intune.microsoft.com**](https://intune.microsoft.com/).
-
-1. If prompted to sign in, use the same **Global Administrator** credentials.
-
-1. If this is your first time accessing the Intune admin center, you may see a welcome screen. Review and dismiss it.
+1. You should still be in the **Microsoft Intune admin center** as **Diego Siciliani**.
 
 1. In the left navigation pane, expand **Tenant administration** and select **Tenant status**.
 
@@ -306,24 +431,9 @@ In this task, you will sign into the Intune admin center and verify the tenant c
     - **Tenant name**: Your organization's name
     - **Tenant location**: Geographic location (e.g., North America, Europe)
     - **MDM authority**: Should show **Microsoft Intune** ✅
-    - **Tenant type**: Trial or Production
 
     > [!IMPORTANT]
     > The **MDM authority** must be set to **Microsoft Intune** for device management. If it shows "Not set" or "Configuration Manager", Intune is not properly configured.
-
-    **Service health and status**:
-    - Review any active incidents or service degradations
-    - All services should show as "Healthy" (green checkmark)
-
-1. In the left navigation pane, expand **Tenant administration** and select **Connectors and tokens**.
-
-1. Review the available connectors:
-    - **Certificate connector** (used for SCEP/PKCS certificates)
-    - **Exchange connector** (optional, for Exchange on-premises)
-    - **Windows Autopilot deployment program** (we'll configure this in later modules if needed)
-
-    > [!NOTE]
-    > You don't need to configure any connectors at this time. We're just verifying they are available.
 
 1. Leave the browser window open.
 
@@ -331,9 +441,9 @@ You have successfully accessed the Microsoft Intune admin center and verified th
 
 ### Task 2 - Review Intune subscription and service health
 
-In this task, you will verify the Intune subscription is active and review service health.
+In this task, you will verify the Intune subscription is active.
 
-1. You are still in the **Microsoft Intune admin center**.
+1. You are still in the **Microsoft Intune admin center** as **Diego Siciliani**.
 
 1. In the left navigation pane, select **Home** (or select **Dashboard** if available).
 
@@ -346,83 +456,101 @@ In this task, you will verify the Intune subscription is active and review servi
     > [!NOTE]
     > The dashboard will populate with data as you enroll devices and assign policies in later labs.
 
-1. In the left navigation pane, expand **Tenant administration** and select **Service health and message center**.
+You have successfully verified that the Intune subscription is active and working.
 
-1. Review any active advisories, incidents, or planned maintenance.
-
-1. Select **View in Microsoft 365 admin center** to see the full service health dashboard (optional).
-
-1. Return to the **Microsoft Intune admin center** tab.
-
-You have successfully verified that the Intune subscription is active and services are healthy.
-
-## Exercise 5: Verify Entra ID and Intune configuration
+## Exercise 7: Initialize Microsoft Defender for Endpoint
 
 ### Exercise Duration
 
-  - **Estimated Time to complete**: 5 minutes
+  - **Estimated Time to complete**: 8 minutes
 
-In this final exercise, you will verify all configurations completed in this lab are in place and ready for device enrollment.
+In this exercise, you will initialize Microsoft Defender for Endpoint in your tenant. This is a prerequisite for connecting Defender for Endpoint to Intune in Lab 05, and completing it now prevents interruptions during later security configuration labs.
 
-### Task 1 - Verify automatic enrollment configuration
+### Task 1 - Initialize Defender for Endpoint portal
 
-In this task, you will confirm that automatic MDM enrollment is properly configured.
+In this task, you will access the Microsoft Defender portal for the first time to trigger tenant provisioning.
 
-1. Return to the **Microsoft Entra admin center** tab (or open [**https://entra.microsoft.com**](https://entra.microsoft.com/) in a new tab).
+1. Open a new browser tab and navigate to the **Microsoft Defender portal** at [**https://security.microsoft.com**](https://security.microsoft.com/).
 
-1. In the left navigation pane, expand **Identity** → **Devices** and select **Enrollment**.
+1. Sign in with **Diego Siciliani's** credentials if prompted.
 
-1. Select **Microsoft Intune** under **Mobility (MDM and MAM)**.
+1. If you see a **Welcome to Microsoft Defender for Endpoint** screen or setup wizard:
+    - Review the welcome message
+    - Select **Start using Microsoft Defender for Endpoint** (or similar button)
+    - Follow any prompts to complete the initial setup
 
-1. Verify the following settings:
-    - ✅ **MDM user scope**: **All**
-    - ✅ **MDM Terms of Use URL**: Populated with default Microsoft URL
-    - ✅ **MDM Discovery URL**: Populated with default Microsoft URL
-    - ✅ **MDM Compliance URL**: Populated with default Microsoft URL
+1. Wait a few moments while the portal initializes. You should see the main Defender dashboard load with sections for:
+    - **Incidents & alerts**
+    - **Assets** (Devices, Identities, Apps)
+    - **Exposure management**
+    - **Threat intelligence**
 
-1. If any settings are incorrect, update them and select **Save**.
+    > [!NOTE]
+    > The portal will show empty dashboards at this point since no devices are onboarded yet. This is expected.
 
-1. Leave this browser tab open.
+1. In the left navigation pane, expand **Assets** and select **Devices**.
 
-You have successfully verified that automatic MDM enrollment is configured correctly.
+1. You should see an empty **Device inventory** page with the message "No devices onboarded yet."
 
-### Task 2 - Verify groups and license assignments
+    > [!NOTE]
+    > This confirms the Defender for Endpoint service is provisioned and ready. You will onboard devices in Lab 05 after deploying security baselines.
 
-In this task, you will confirm that groups and user licenses are properly configured.
+1. Leave this browser tab open for the next task.
 
-1. In the **Microsoft Entra admin center**, navigate to **Identity** → **Groups** → **All groups**.
+You have successfully initialized Microsoft Defender for Endpoint in your tenant.
 
-1. Verify the following groups exist:
-    - ✅ **All Windows Devices** (Dynamic Device group)
-    - ✅ **Device Management Pilot Users** (Assigned Security group)
+### Task 2 - Enable Microsoft Intune connection in Defender portal
 
-1. Select **All Windows Devices** to view group details.
+In this task, you will enable the bidirectional connection between Defender for Endpoint and Intune.
 
-1. Select **Members** in the left menu.
+1. You are still in the **Microsoft Defender portal** at [**https://security.microsoft.com**](https://security.microsoft.com/).
 
-1. Note that the group currently has **0 members** (devices will be added automatically as they enroll in Lab 02).
+1. In the left navigation pane (at the bottom), select the **Settings** gear icon, or navigate to **Settings**.
 
-1. Go back to **All groups** and select **Device Management Pilot Users**.
+1. On the **Settings** page, select **Endpoints** from the left menu.
 
-1. Select **Members** in the left menu.
+1. Under **General**, select **Advanced features**.
 
-1. Verify that your **3-5 pilot users** are listed as members.
+1. On the **Advanced features** page, scroll down and locate **Microsoft Intune connection**.
 
-1. Navigate to the **Microsoft 365 admin center** (or switch to the existing tab).
+1. Toggle **Microsoft Intune connection** to **On**.
 
-1. Go to **Users** → **Active users**.
+    > [!NOTE]
+    > This enables Defender for Endpoint to share device information with Intune and allows Intune to enforce security policies on managed devices.
 
-1. Select one of the pilot users (e.g., **Alex Wilber**).
+1. Review the description: "Connects to Microsoft Intune to enable sharing of device information and enhanced policy enforcement."
 
-1. In the user details pane, select **Licenses and apps**.
+1. At the bottom of the page, select **Save preferences**.
 
-1. Verify the user has the following licenses assigned:
-    - ✅ **Microsoft 365 E5** (or E3 + EMS E5)
-    - ✅ **Microsoft Intune** service enabled
+1. Wait for the notification confirming the settings were saved.
 
-1. Close the user details pane.
+You have successfully enabled the Microsoft Intune connection from the Defender for Endpoint side.
 
-You have successfully verified that groups and license assignments are correctly configured.
+### Task 3 - Verify Defender for Endpoint connector readiness in Intune
+
+In this task, you will verify that the Defender for Endpoint connector in Intune is now ready for configuration.
+
+1. Return to the **Microsoft Intune admin center** tab where you are signed in as **Diego Siciliani**.
+
+1. In the left navigation pane, expand **Tenant administration** and select **Connectors and tokens**.
+
+1. On the **Connectors and tokens** page, locate **Microsoft Defender for Endpoint** and select it.
+
+1. On the **Microsoft Defender for Endpoint** connector page, verify that:
+    - **Connection status** shows "Not set up" (this is expected - we'll configure the connection in Lab 05)
+    - The toggle switches for **Windows**, **Android**, and **iOS** device connections are now **enabled** (not grayed out)
+
+    > [!IMPORTANT]
+    > If the toggles are still grayed out, wait 5 minutes and refresh the page. The Defender for Endpoint service may still be provisioning.
+
+    > [!NOTE]
+    > The connection is now ready from both sides: you enabled the "Microsoft Intune connection" in Defender portal, and the Intune connector toggles are enabled. In Lab 05, you'll complete the configuration by turning on these toggles and creating the onboarding profile.
+
+1. **Do not configure any settings yet** - you will complete the connector configuration in Lab 05.
+
+1. Close this page and return to the Intune dashboard.
+
+You have successfully verified that Microsoft Defender for Endpoint is initialized and the bidirectional connection with Intune is ready. The connector will be fully configured in Lab 05 when you deploy security baselines.
 
 ## Lab Completion
 
@@ -431,40 +559,20 @@ Congratulations! You have successfully completed Lab 01: Configure tenant for de
 ### Summary of what you accomplished
 
 In this lab, you:
-- ✅ Reviewed available licenses in the Microsoft 365 tenant
-- ✅ Assigned Intune/EMS licenses to pilot users
+
+- ✅ Signed in with Global Administrator and reviewed available licenses in the Microsoft 365 tenant
+- ✅ Verified Intune/EMS licenses are assigned to the four pilot users (Alex Wilber, Allan Deyoung, Diego Siciliani, Joni Sherman)
+- ✅ Assigned administrative roles to Diego Siciliani following zero-trust and least privilege principles
+- ✅ Signed out of Global Administrator and signed in with Diego Siciliani's role-based administrative account (Intune Administrator)
 - ✅ Configured Entra ID device settings to allow device join and registration
-- ✅ Enabled automatic MDM enrollment in Microsoft Intune
-- ✅ Created a dynamic device group for all Windows devices
 - ✅ Created a static security group for pilot users
+- ✅ Created a dynamic device group for all Windows devices
+- ✅ Enabled automatic enrollment in Intune for the pilot users group
 - ✅ Verified Intune tenant status and MDM authority
+- ✅ Initialized Microsoft Defender for Endpoint portal
+- ✅ Enabled Microsoft Intune connection in Defender portal (bidirectional integration)
+- ✅ Verified Intune connector toggles are enabled and ready for configuration
 - ✅ Confirmed all configurations are in place for device enrollment
 
-### Next steps
-
-In **Lab 02: Enroll and validate devices**, you will:
-- Enroll a Windows device using Entra join
-- Validate device enrollment in Entra ID and Intune portals
-- Review device properties, compliance, and applied policies
-- Perform device synchronization
-
-### Cleanup (Optional)
-
-If you need to reset your lab environment:
-
-1. In **Microsoft Entra admin center** → **Groups**, delete the created groups:
-   - All Windows Devices
-   - Device Management Pilot Users
-
-1. In **Microsoft 365 admin center** → **Users** → **Active users**, remove license assignments from pilot users.
-
-1. In **Microsoft Entra admin center** → **Devices** → **Enrollment**, change **MDM user scope** to **None** to disable automatic enrollment.
-
-> [!WARNING]
-> Only perform cleanup if you are not proceeding to Lab 02 immediately, as these configurations are required for the next lab.
-
----
-
-**Lab Status**: ✅ Complete  
-**Next Lab**: Lab 02 - Enroll and validate devices  
-**Estimated Time for Next Lab**: 30 minutes
+> [!IMPORTANT]
+> **For all remaining labs**: Continue using **Diego Siciliani's** account (Intune Administrator) for all administrative tasks. Do not use Global Administrator.
