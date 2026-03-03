@@ -5,11 +5,11 @@ lab:
     module: 'Learning Path 02: Deploy and manage devices with Microsoft Intune'
 ---
 
-> **Abstract:**  
-> In this lab, you will enroll a Windows 11 device into Microsoft Intune using Entra join, validate the enrollment in both the Entra ID and Intune portals, and verify device properties, compliance status, and group membership. You will also perform device synchronization from both the portal and the device itself.
-
 # Lab 02: Enroll and validate devices
 # Student lab answer key
+
+> **Abstract:**  
+> In this lab, you will enroll a Windows 11 device into Microsoft Intune using Entra join, validate the enrollment in both the Entra ID and Intune portals, and verify device properties, compliance status, and group membership. You will also perform device synchronization from both the portal and the device itself.
 
 ## Lab scenario
 

@@ -5,11 +5,11 @@ lab:
     module: 'Learning Path 01: Plan and configure Microsoft Intune'
 ---
 
-> **Abstract:**  
-> In this lab, you will configure the foundational Microsoft Intune environment for Contoso Healthcare, including licensing, user accounts, permissions, and Entra ID settings to support device management. The scenario guides you through preparing the tenant for device enrollment by setting up automatic MDM enrollment, creating dynamic device groups, and verifying Intune tenant status.
-
 # Lab 01: Configure tenant for device management
 # Student lab answer key
+
+> **Abstract:**  
+> In this lab, you will configure the foundational Microsoft Intune environment for Contoso Healthcare, including licensing, user accounts, permissions, and Entra ID settings to support device management. The scenario guides you through preparing the tenant for device enrollment by setting up automatic MDM enrollment, creating dynamic device groups, and verifying Intune tenant status.
 
 ## Lab scenario
 

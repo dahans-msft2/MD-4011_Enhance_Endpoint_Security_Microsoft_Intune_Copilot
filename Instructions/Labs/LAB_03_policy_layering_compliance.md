@@ -5,11 +5,11 @@ lab:
     module: 'Learning Path 03: Configure and manage device policies'
 ---
 
-> **Abstract:**  
-> In this lab, you will create and deploy configuration profiles to manage device settings, create compliance policies to enforce security requirements, use filters to target specific devices, and validate policy application on enrolled devices. You will learn how Intune applies policies and evaluates device compliance against organizational security standards.
-
 # Lab 03: Implement policy layering and compliance
 # Student lab answer key
+
+> **Abstract:**  
+> In this lab, you will create and deploy configuration profiles to manage device settings, create compliance policies to enforce security requirements, use filters to target specific devices, and validate policy application on enrolled devices. You will learn how Intune applies policies and evaluates device compliance against organizational security standards.
 
 ## Lab scenario
 
