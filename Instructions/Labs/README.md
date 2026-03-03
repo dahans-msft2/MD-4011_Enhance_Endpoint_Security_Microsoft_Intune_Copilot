@@ -13,12 +13,11 @@ These labs provide learners with practical, guided experience implementing moder
 | **Lab 03** | Implement policy layering and compliance | Module 3 | 45 min | Configuration profiles, compliance policies |
 | **Lab 04** | Protect data with MAM and conditional access | Module 4 | 30 min | App protection policies, conditional access |
 | **Lab 05** | Harden devices with security baselines | Module 5 | 45 min | Security baselines, Defender onboarding |
-| **Lab 06** | Investigate incidents with Security Copilot | Module 6 | 60 min | AI-powered security operations (capstone) |
-| **Total** | | | **4 hours** | Complete endpoint management lifecycle |
+| **Total** | | | **3.5 hours** | Complete endpoint management lifecycle |
 
 ## Lab Scenario
 
-Throughout these labs, you take on the role of **Alex Rivera**, a Modern Endpoint Administrator for **Contoso Healthcare**, a mid-sized healthcare organization. Contoso is modernizing its endpoint management strategy to improve security, compliance, and user productivity while meeting healthcare industry regulations.
+Throughout these labs, you take on the role of **Diego Siciliani**, a Modern Endpoint Administrator for **Contoso Healthcare**, a mid-sized healthcare organization. Contoso is modernizing its endpoint management strategy to improve security, compliance, and user productivity while meeting healthcare industry regulations.
 
 Your objectives:
 - Deploy Microsoft Intune as the primary endpoint management solution
@@ -116,7 +115,6 @@ These labs support multiple delivery approaches:
 | `LAB_03_policy_layering_compliance.md` | Lab 03: Implement policy layering and compliance |
 | `LAB_04_data_protection.md` | Lab 04: Protect data with MAM and conditional access |
 | `LAB_05_security_hardening.md` | Lab 05: Harden devices with security baselines |
-| `LAB_06_copilot_investigation.md` | Lab 06: Investigate incidents with Security Copilot (capstone) |
 
 ## Common Troubleshooting
 

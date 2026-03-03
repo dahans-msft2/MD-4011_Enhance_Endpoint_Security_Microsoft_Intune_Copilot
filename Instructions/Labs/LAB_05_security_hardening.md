@@ -5,11 +5,13 @@ lab:
     module: 'Learning Path 05: Secure and monitor endpoints'
 ---
 
-> **Abstract:**  
-> In this lab, you will deploy Windows security baselines to enforce comprehensive security settings, onboard devices to Microsoft Defender for Endpoint for advanced threat protection, configure Attack Surface Reduction (ASR) rules to block common attack vectors, and monitor security posture through the Defender portal.
+
 
 # Lab 05: Harden devices with security baselines
 # Student lab answer key
+
+> **Abstract:**  
+> In this lab, you will deploy Windows security baselines to enforce comprehensive security settings, onboard devices to Microsoft Defender for Endpoint for advanced threat protection, configure Attack Surface Reduction (ASR) rules to block common attack vectors, and monitor security posture through the Defender portal.
 
 ## Lab scenario
 
