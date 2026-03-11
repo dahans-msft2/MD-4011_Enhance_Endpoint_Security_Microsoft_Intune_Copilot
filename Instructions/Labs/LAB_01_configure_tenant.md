@@ -1,8 +1,14 @@
 ---
 lab:
-    title: 'Lab 01: Configure tenant for device management'
-    type: 'Answer Key'
-    module: 'Learning Path 01: Plan and configure Microsoft Intune'
+  title: 'Lab 01: Configure tenant for device management'
+  type: Answer Key
+  module: 'Learning Path 01: Plan and configure Microsoft Intune'
+  description: In this exercise, you will access the Microsoft Intune admin center and verify that the Intune tenant is properly configured and ready for device enrollment.
+  duration: 38 minutes
+  level: 300
+  islab: true
+  primarytopics:
+    - Microsoft Intune
 ---
 
 # Lab 01: Configure tenant for device management
