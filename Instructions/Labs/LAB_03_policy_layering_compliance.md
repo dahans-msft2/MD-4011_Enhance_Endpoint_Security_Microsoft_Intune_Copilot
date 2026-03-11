@@ -1,8 +1,12 @@
 ---
 lab:
-    title: 'Lab 03: Implement policy layering and compliance'
-    type: 'Answer Key'
-    module: 'Learning Path 03: Configure and manage device policies'
+  title: 'Lab 03: Implement policy layering and compliance'
+  type: Answer Key
+  module: 'Learning Path 03: Configure and manage device policies'
+  description: In this lab, you will create configuration profiles to enforce security settings like BitLocker encryption and firewall configuration, create compliance policies to define minimum security requirements, use filters to target policies to corporate-owned devices only, and validate that policies are applied successfully and devices are evaluated for compliance.
+  duration: 45 minutes
+  level: 300
+  islab: true
 ---
 
 # Lab 03: Implement policy layering and compliance
