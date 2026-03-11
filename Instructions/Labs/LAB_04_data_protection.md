@@ -1,11 +1,13 @@
 ---
 lab:
-    title: 'Lab 04: Protect data with MAM and conditional access'
-    type: 'Answer Key'
-    module: 'Learning Path 04: Protect data and applications'
+  title: 'Lab 04: Protect data with MAM and conditional access'
+  type: Answer Key
+  module: 'Learning Path 04: Protect data and applications'
+  description: In this task, you will create an app protection policy for Android devices with similar settings to iOS to ensure consistent data protection across mobile platforms.
+  duration: 30 minutes
+  level: 300
+  islab: true
 ---
-
-
 
 # Lab 04: Protect data with MAM and conditional access
 # Student lab answer key
