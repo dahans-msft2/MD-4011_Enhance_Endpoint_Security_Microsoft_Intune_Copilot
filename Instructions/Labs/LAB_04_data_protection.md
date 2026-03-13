@@ -1,11 +1,13 @@
 ---
 lab:
-    title: 'Lab 04: Protect data with MAM and conditional access'
-    type: 'Answer Key'
-    module: 'Learning Path 04: Protect data and applications'
+  title: 'Lab 04: Protect data with MAM and conditional access'
+  type: Answer Key
+  module: 'Module 04: Protect data and control access with Microsoft Intune and Conditional Access'
+  description: In this lab, you will create Mobile Application Management (MAM) policies to protect corporate data in apps on managed and unmanaged devices, configure conditional access policies to enforce device compliance requirements for accessing corporate resources, and test data protection and access control scenarios.
+  duration: 30 minutes
+  level: 300
+  islab: true
 ---
-
-
 
 # Lab 04: Protect data with MAM and conditional access
 # Student lab answer key
