@@ -2,10 +2,10 @@
 lab:
   title: 'Lab 05: Harden devices with security baselines'
   type: Answer Key
-  module: 'Learning Path 05: Secure and monitor endpoints'
-  description: In this lab, you will deploy the Windows 11 security baseline to enforce 100+ recommended security settings, onboard enrolled devices to Defender for Endpoint for advanced threat detection and response, configure ASR rules to block credential theft and malicious scripts, and monitor device security posture and vulnerabilities through the Defender portal.
+  module: 'Module 05: Harden endpoints and monitor security with Microsoft Intune and Defender for Endpoint'
+  description: In this lab, you will deploy Windows security baselines to enforce comprehensive security settings, onboard devices to Microsoft Defender for Endpoint for advanced threat protection, configure Attack Surface Reduction (ASR) rules to block common attack vectors, and monitor security posture through the Defender portal.
   duration: 45 minutes
-  level: 400
+  level: 300
   islab: true
   primarytopics:
     - Windows

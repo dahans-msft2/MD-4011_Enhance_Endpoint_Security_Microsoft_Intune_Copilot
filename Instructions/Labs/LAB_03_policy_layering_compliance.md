@@ -2,8 +2,8 @@
 lab:
   title: 'Lab 03: Implement policy layering and compliance'
   type: Answer Key
-  module: 'Learning Path 03: Configure and manage device policies'
-  description: In this lab, you will create configuration profiles to enforce security settings like BitLocker encryption and firewall configuration, create compliance policies to define minimum security requirements, use filters to target policies to corporate-owned devices only, and validate that policies are applied successfully and devices are evaluated for compliance.
+  module: 'Module 03: Configure and secure devices with Microsoft Intune policies'
+  description: In this lab, you will create and deploy configuration profiles to manage device settings, create compliance policies to enforce security requirements, use filters to target specific devices, and validate policy application on enrolled devices. You will learn how Intune applies policies and evaluates device compliance against organizational security standards.
   duration: 45 minutes
   level: 300
   islab: true

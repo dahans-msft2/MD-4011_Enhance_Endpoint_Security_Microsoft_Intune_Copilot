@@ -2,10 +2,10 @@
 lab:
   title: 'Lab 02: Enroll and validate devices'
   type: Answer Key
-  module: 'Learning Path 02: Deploy and manage devices with Microsoft Intune'
-  description: For the pilot project, you will enroll a Windows 11 device using Entra join, which provides seamless single sign-on and automatic Intune enrollment. After enrollment, you will validate the device appears in both Entra ID and Intune portals, review device properties and compliance status, and verify that the device was automatically added to the "All Windows Devices" dynamic group you created in Lab 01.
+  module: 'Module 02: Enroll and validate devices with Microsoft Intune'
+  description: In this lab, you will enroll a Windows 11 device into Microsoft Intune using Entra join, validate the enrollment in both the Entra ID and Intune portals, and verify device properties, compliance status, and group membership. You will also perform device synchronization from both the portal and the device itself.
   duration: 30 minutes
-  level: 300
+  level: 200
   islab: true
   primarytopics:
     - Windows

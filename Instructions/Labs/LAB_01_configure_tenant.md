@@ -2,10 +2,10 @@
 lab:
   title: 'Lab 01: Configure tenant for device management'
   type: Answer Key
-  module: 'Learning Path 01: Plan and configure Microsoft Intune'
-  description: In this exercise, you will access the Microsoft Intune admin center and verify that the Intune tenant is properly configured and ready for device enrollment.
+  module: 'Module 01: Prepare Microsoft Entra ID and Intune for device management'
+  description: In this lab, you will configure the foundational Microsoft Intune environment for Contoso Healthcare, including licensing, user accounts, permissions, and Entra ID settings to support device management. The scenario guides you through preparing the tenant for device enrollment by setting up automatic MDM enrollment, creating dynamic device groups, and verifying Intune tenant status.
   duration: 38 minutes
-  level: 300
+  level: 200
   islab: true
   primarytopics:
     - Microsoft Intune
